@@ -5,7 +5,7 @@
   "main": "server.js",
   "dependencies": {
     "body-parser": "*",
-    "ejs": "^2.3.1",
+    "ejs": "*",
     "express": "*",
     "jquery": "*",
     "socket.io": "*"

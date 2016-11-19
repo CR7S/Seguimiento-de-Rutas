@@ -10,10 +10,10 @@ io.on('connection', function(socket){
   console.log('usuario conectado');
 });
 
-fs.watch('C:/Users/CristianRey/Desktop/googlemaps/cordenadas/', 
+fs.watch('cordenadas/', 
 	function (event, filename) {
 		console.log('filename: ' + filename);
-		fs.readFile('C:/Users/CristianRey/Desktop/googlemaps/cordenadas/'+filename, 
+		fs.readFile('cordenadas/'+filename, 
 			'utf8', 
 			function (err, data) {
 				try{
