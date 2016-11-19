@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>
+		Gráficas
+	</title>
+    <meta charset="utf-8"/>
+</head>
+<body>
+	<div id="cpu" style="width: 60%; heigth:60%; margin:0 auto:float:left;"></div >
+	<div id="ram" style="width: 60%; heigth:60%; margin:0 auto:float:left;"></div> 
+	
+<div Style="borde-top:1px solid #CDCDCD;margin:10px;padding;0;clear:both; "></div>
+
+	<div id="disco" style="width: 60%; heigth:60%; margin:0 auto:float:left;"></div >
+	<div id="procesos" style="width: 60%; heigth:60%; margin:0 auto:float:left;"></div> 
+     
+     
+</body>
+<script src="js/jquery.js"></script>
+<script src="js/highcharts.js"></script>
+<script src="js/exporting.js"></script>
+<script src="http://localhost:3000/socket.io/socket.io.js"></script>
+<script type="text/javascript">
+    $(document).ready(function() {
+        var chart;
+        Highcharts.setOptions({
+            global: {
+                useUTC: false
+            }
+        });
+        chart = new Highcharts.Chart({
+            chart: {
+                renderTo: 'cpu',
+                defaultSeriesType: 'spline'
+            },
+            title: {
+                text: 'Gráfica en tiempo real'
+		
+            },
+            xAxis: {
+                type: 'datetime',
+                tickPixelInterval: 150,                
+            },
+            yAxis: {                
+                title: {
+                    text: 'Valor',                    
+                },
+		plotLines: [{
+                value: 2,
+                width: 1000,
+                color: '#811080'
+           	 }]
+
+            },
+            series: [
+                {
+                    name: 'Cpu',
+                    data: [1,2,3,4]
+                }
+
+            ]
+        });
+
+	chart = new Highcharts.Chart({
+            chart: {
+                renderTo: 'ram',
+                defaultSeriesType: 'spline'
+            },
+            title: {
+                text: 'Gráfica en tiempo real'
+		
+            },
+            xAxis: {
+                type: 'datetime',
+                tickPixelInterval: 150,                
+            },
+            yAxis: {                
+                title: {
+                    text: 'Valor',                    
+                },
+		plotLines: [{
+                value: 2,
+                width: 1000,
+                color: '#815034'
+           	 }]
+
+            },
+            series: [
+                {
+                    name: 'RAM',
+                    data: [1,2,3,4]
+                }
+
+            ]
+        });
+	
+	
+	chart = new Highcharts.Chart({
+            chart: {
+                renderTo: 'disco',
+                defaultSeriesType: 'spline'
+            },
+            title: {
+                text: 'Gráfica en tiempo real'
+		
+            },
+            xAxis: {
+                type: 'datetime',
+                tickPixelInterval: 150,                
+            },
+            yAxis: {                
+                title: {
+                    text: 'Valor',                    
+                },
+		plotLines: [{
+                value: 2,
+                width: 1000,
+                color: '#871034'
+           	 }]
+
+            },
+            series: [
+                {
+                    name: 'disco',
+                    data: [1,2,3,4]
+                }
+
+            ]
+        });
+	
+	chart = new Highcharts.Chart({
+            chart: {
+                renderTo: 'procesos',
+                defaultSeriesType: 'spline'
+            },
+            title: {
+                text: 'Gráfica en tiempo real'
+		
+            },
+            xAxis: {
+                type: 'datetime',
+                tickPixelInterval: 150,                
+            },
+            yAxis: {                
+                title: {
+                    text: 'Valor',                    
+                },
+		plotLines: [{
+                value: 2,
+                width: 1000,
+                color: '#811034'
+           	 }]
+
+            },
+            series: [
+                {
+                    name: 'procesos',
+                    data: [1,2,3,4]
+                }
+
+            ]
+        });
+        var socket = io.connect('localhost:3000');
+        socket.on('datos', function(datos){            
+            var x = (new Date()).getTime();
+            var y = parseInt(datos.valor);
+            var y_otro = parseInt(datos.otro);
+
+            cantidad = chart.series[0].data.length > 10; 
+            
+            chart.series[0].addPoint([x, y], true, cantidad);
+
+            chart.series[1].addPoint([x, y_otro], true, cantidad);
+        });
+    });    
+</script>
+</html>

@@ -1,0 +1,31 @@
+var app=require('express')();
+var http=require('http').Server(app);
+var io=require('socket.io')(http);
+
+
+io.on('connection',function(socket){
+	console.log('usuario conectado');
+	var estado=true;
+});
+var fs=require('fs');
+fs.watch('/home/cristian/Escritorio/googlemaps/data.json',
+	function(event,filename){
+		console.log('Evento: '+event)
+		fs.readFile('/home/cristian/Escritorio/googlemaps/data.json','utf8',function(err,data){
+			if(err)throw err;
+				console.log(data);
+				var datos=JSON.parse(data);
+				io.emit('datos',data);
+				});
+		});
+			
+
+http.listen(3000,function(socket){
+	console.log('listend on http://127.0.0.1:3000');
+});
+
+if (estado=true) {
+	function estado(){
+		alert("con");
+	}
+};

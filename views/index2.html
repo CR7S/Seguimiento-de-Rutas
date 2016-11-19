@@ -1,0 +1,217 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>
+		Gráficas
+	</title>
+    <meta charset="utf-8"/>
+</head>
+<body>
+	
+    <div id="cpu" style="border: 5px width: 50%; height: 50%; margin: 0 auto;float:left;"></div>
+	<div id="ram" style="border: 5px width: 50%; height: 50%; margin: 0 auto;float:left;"></div>
+		
+	<div style="border-top:1px solid #CDCDCD;margin:10px;padding:0;clear:both;"></div>
+
+	<div id="disco" style="border: 5px width: 50%; height: 50%; margin: 0 auto;float:left;"></div>
+	<div id="procesos" style="border: 5px width: 50%; height: 50%; margin: 0 auto;float:left;"></div>
+</body>
+<script src="js/jquery.js"></script>
+<script src="js/highcharts.js"></script>
+<script src="js/exporting.js"></script>
+<script src="socket.io/socket.io.js"></script>
+<script type="text/javascript">
+    $(cpu).ready(function() {
+        var chart;
+        Highcharts.setOptions({
+            global: {
+                useUTC: false
+            }
+        });
+        chart = new Highcharts.Chart({
+            chart: {
+                renderTo: 'cpu',
+                defaultSeriesType: 'spline'
+            },
+            title: {
+                text: 'Uso de Cpu'
+            },
+            xAxis: {
+                type: 'datetime',
+                tickPixelInterval: 150,                
+            },
+            yAxis: {                
+                title: {
+                    text: 'Uso %',                    
+                }
+            },
+            series: [
+                {
+                    name: 'Cpu %',
+                    data: []
+                }
+            ]
+        });
+        var socket = io.connect(window.location.href);
+        socket.on('datos', function(datos){            
+            var x = (new Date()).getTime();
+            var y = parseInt(datos.cpu);
+            var y1 = parseInt(datos.proc_tot)
+
+            cantidad = chart.series[0].data.length > 10; 
+            
+            chart.series[0].addPoint([x, y], true, cantidad);
+            
+            
+        });
+		});    
+    
+    //***************************************************
+    $(ram).ready(function() {
+        var chart;
+        Highcharts.setOptions({
+            global: {
+                useUTC: false
+            }
+        });
+        chart = new Highcharts.Chart({
+            chart: {
+                renderTo: 'ram',
+                defaultSeriesType: 'spline'
+            },
+            title: {
+                text: 'Uso de ram'
+            },
+            xAxis: {
+                type: 'datetime',
+                tickPixelInterval: 150,                
+            },
+            yAxis: {                
+                title: {
+                    text: 'Ram Mb',                    
+                }
+            },
+            series: [
+                {
+                    name: 'Ram Mb',
+                    data: []
+                }
+            ]
+        });
+        var socket = io.connect(window.location.href);
+        socket.on('datos', function(datos){            
+            var x = (new Date()).getTime();
+            var y = parseInt(datos.ram);
+
+            cantidad = chart.series[0].data.length > 10; 
+            
+            chart.series[0].addPoint([x, y], true, cantidad);
+        });
+    });   
+    
+    //**************************************************** 
+    
+    $(disco).ready(function() {
+        var chart;
+        Highcharts.setOptions({
+            global: {
+                useUTC: false
+            }
+        });
+        chart = new Highcharts.Chart({
+            chart: {
+                renderTo: 'disco',
+                defaultSeriesType: 'spline'
+            },
+            title: {
+                text: 'Cantidad de disco'
+            },
+            xAxis: {
+                type: 'datetime',
+                tickPixelInterval: 150,                
+            },
+            yAxis: {                
+                title: {
+                    text: 'Disco Mb',                    
+                }
+            },
+            series: [
+                {
+                    name: 'Disco Libre Mb',
+                    data: []
+                },
+                {
+					name: 'Disco Ocupado Mb',
+					data: []
+				}
+            ]
+        });
+        var socket = io.connect(window.location.href);
+        socket.on('datos', function(datos){            
+            var x = (new Date()).getTime();
+            var y = parseInt(datos.disk_fre);
+
+            cantidad = chart.series[0].data.length > 10; 
+            
+            chart.series[0].addPoint([x, y], true, cantidad);
+            
+            var a = parseInt(datos.disk_ocu);
+            cantidad = chart.series[0].data.length > 10;
+            chart.series[1].addPoint([x, a],true, cantidad);
+        });
+    });    
+    
+    //*************************************************************
+    
+    $(procesos).ready(function() {
+        var chart;
+        Highcharts.setOptions({
+            global: {
+                useUTC: false
+            }
+        });
+        chart = new Highcharts.Chart({
+            chart: {
+                renderTo: 'procesos',
+                defaultSeriesType: 'spline'
+            },
+            title: {
+                text: 'Cantidad de procesos'
+            },
+            xAxis: {
+                type: 'datetime',
+                tickPixelInterval: 150,                
+            },
+            yAxis: {                
+                title: {
+                    text: 'procesos',                    
+                }
+            },
+            series: [
+                {
+                    name: 'procesos ejecutándose',
+                    data: []
+                },
+                {
+					name: 'procesos totales',
+					data: []
+				}
+            ]
+        });
+        var socket = io.connect(window.location.href);
+        socket.on('datos', function(datos){            
+            var x = (new Date()).getTime();
+            var y = parseInt(datos.proc_run);
+
+            cantidad = chart.series[0].data.length > 10; 
+            
+            chart.series[0].addPoint([x, y], true, cantidad);
+            
+            var a = parseInt(datos.proc_tot);
+            cantidad = chart.series[0].data.length > 10;
+            chart.series[1].addPoint([x, a],true, cantidad);
+        });
+    });    
+    
+</script>
+</html>

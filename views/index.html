@@ -1,0 +1,256 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>
+		Rutas activas
+	</title>
+    <meta charset="utf-8"/>
+</head>
+<meta name="viewport" content="initial-scale=1.0, user-scalable=no" />
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+        
+<script src="js/jquery.js"></script>
+<script src="js/highcharts.js"></script>
+<script src="js/exporting.js"></script>
+<script src="socket.io/socket.io.js"></script>
+<script type="text/javascript" src="http://maps.google.com/maps/api/js?sensor=false"></script>
+<script type="text/javascript">
+        array =new Array();
+        var contador=0;
+        var control=0;
+        function initialize() { 
+        var latlng = new google.maps.LatLng(4.0746927,-73.584027);
+        var settings = {
+                    zoom: 16,
+                    center: latlng,
+                    mapTypeControl: true,
+                    mapTypeControlOptions: {style: google.maps.MapTypeControlStyle.DROPDOWN_MENU},
+                    navigationControl: true,
+                    navigationControlOptions: {style: google.maps.NavigationControlStyle.SMALL},
+                    mapTypeId: google.maps.MapTypeId.ROADMAP};
+        var socket = io.connect(window.location.href);
+                socket.on('datos', function(datos){            
+                     x = datos.nombre;
+                     y = parseFloat(datos.latitud);
+                     z = parseFloat(datos.longitud);
+                control=control+1;
+                var par=control%2;
+                if (par==0) {
+                    if (contador>2) {
+                        deleteMarker(array[contador-2]);
+                    };
+                    contador=contador+3;
+                    array[contador]=y;
+                    array[contador-1]=z;
+                    agregar();
+                };
+                });
+                var map = new google.maps.Map(document.getElementById("map_canvas"), settings);
+                 var flightPlanCoordinates = [
+                    {lat: 4.157846824258839, lng: -73.63794296979904},
+                    {lat: 4.1589222336967975, lng: -73.63531976938248},
+                    {lat: 4.158772425504872, lng: -73.63461703062057},
+                    {lat: 4.153962497353578, lng: -73.62894147634506},
+                    {lat: 4.153042240793448, lng: -73.62837016582489},
+                    {lat: 4.148997379469358, lng: -73.62850964069366},
+                    {lat: 4.147542080379878, lng: -73.61993730068207},
+                    {lat: 4.13511842545932, lng: -73.62219572067261},
+                    {lat: 4.1324645962152236, lng: -73.62524271011353},
+                    {lat: 4.12120712510507, lng: -73.61670255661011},
+                    {lat: 4.089488451579312, lng: -73.57709169387817}
+                  ];
+                  var grma = new google.maps.Polyline({
+                    path: flightPlanCoordinates,
+                    geodesic: true,
+                    strokeColor: '#FF0000',
+                    strokeOpacity: 2.0,
+                    strokeWeight: 3
+                  });
+
+                  grma.setMap(map);
+
+                   var flightPlanCoordinates2 = [
+                    {lat: 4.1469909921572805, lng: -73.6368378996849},
+                    {lat: 4.146814429829911, lng: -73.63675206899643},
+                    {lat: 4.146964240292028, lng: -73.63637119531631},
+                    {lat: 4.121763581797428, lng: -73.61716389656067},
+                    {lat: 4.08980949709068, lng: -73.57722043991089}
+                  ];
+                  var centro = new google.maps.Polyline({
+                    path: flightPlanCoordinates2,
+                    geodesic: true,
+                    strokeColor: '#FF0000',
+                    strokeOpacity: 2.0,
+                    strokeWeight: 3
+                  });
+                  centro.setMap(map);
+                  var flightPlanCoordinates3 = [
+                    {lat: 4.137643835358924, lng: -73.58811020851135},
+                    {lat: 4.137017834079164, lng: -73.584985435009},
+                    {lat: 4.137980912766154, lng: -73.58257681131363},
+                    {lat: 4.136242019840883, lng: -73.57443630695343},
+                    {lat: 4.1332778674115, lng: -73.56544554233551},
+                    {lat: 4.131009266729819, lng: -73.56584787368774},
+                    {lat: 4.129682346342711, lng: -73.56670618057251},
+                    {lat: 4.1261724172044145, lng: -73.57172727584839},
+                    {lat: 4.1245030552191535, lng: -73.57653379440308},
+                    {lat: 4.121249929479842, lng: -73.57932329177856},
+                    {lat: 4.116798262166579, lng: -73.58764886856079},
+                    {lat: 4.1161989973572455, lng: -73.5918116569519},
+                    {lat: 4.1167126529357265, lng: -73.59486803412437},
+                    {lat: 4.115235892254451, lng: -73.60286772251129},
+                    {lat: 4.115086075800424, lng: -73.60340416431427},
+                    {lat: 4.113309678554769, lng: -73.60659062862396}
+                  ];
+                  var covisan = new google.maps.Polyline({
+                    path: flightPlanCoordinates3,
+                    geodesic: true,
+                    strokeColor: '#FF0000',
+                    strokeOpacity: 2.0,
+                    strokeWeight: 3
+                  });
+                 covisan.setMap(map);
+
+
+                    var flightPlanCoordinates4 = [
+                    {lat: 4.132625110333183, lng: -73.62568527460098},
+                    {lat: 4.132405741030505, lng: -73.62571746110916},
+                    {lat: 4.131736931806321, lng: -73.62664550542831},
+                    {lat: 4.131362398394423, lng: -73.62777203321457},
+                    {lat: 4.1313409964798335, lng: -73.62884491682053},
+                    {lat: 4.133828965182174, lng: -73.63638192415237},
+                    {lat: 4.133925273491123, lng: -73.63646239042282},
+                    {lat: 4.134010880867037, lng: -73.63653749227524},
+                    {lat: 4.134016231327721, lng: -73.63666087388992},
+                    {lat: 4.133946675335969, lng: -73.6367467045784},//
+                    {lat: 4.133764759636373, lng: -73.63676279783249},
+                    {lat: 4.13292473659978, lng: -73.63721072673798}
+                  ];
+                  var villacentro = new google.maps.Polyline({
+                    path: flightPlanCoordinates4,
+                    geodesic: true,
+                    strokeColor: '#FF0000',
+                    strokeOpacity: 2.0,
+                    strokeWeight: 3
+                  });
+                 villacentro.setMap(map);
+
+
+
+                 var flightPlanCoordinates5= [
+                    {lat: 4.125311, lng: -73.636108},
+                    {lat: 4.12255546180355, lng: -73.63252222537994},
+                    {lat: 4.122223728383468, lng: -73.63217890262604},
+                    {lat: 4.1219883045820245, lng: -73.6320286989212},
+                    {lat:4.122635719868259, lng: -73.62961202859879},
+                    {lat: 4.119024098936745, lng: -73.6286598443985},
+                    {lat: 4.120094210552212, lng: -73.6247330904007},
+
+
+
+                    {lat: 4.120725575730067, lng: -73.62509652972221},
+                    {lat: 4.125123715854122, lng: -73.61964762210846}
+                  ];
+                  var exito = new google.maps.Polyline({
+                    path: flightPlanCoordinates5,
+                    geodesic: true,
+                    strokeColor: '#FF0000',
+                    strokeOpacity: 2.0,
+                    strokeWeight: 3
+                  });
+                 exito.setMap(map);
+
+
+
+
+
+
+
+                  var locations = [
+                      ['Glorieta de la grama',4.157932429043976,-73.63766133785248, 1],
+                      ['Bomba texaco',4.157044278946018,-73.632532954216, 2],
+                      ['2 cuadras antes del hotel Rosado',4.151330132709663, -73.62841308116913, 3],
+                      ['Cofrem', 4.148023613463609,-73.62420201301575, 4],
+                      ['Parque S', 4.137387014380924,-73.62156271934509, 5],
+                      ['Parque banderas',4.1469909921572805,-73.6368378996849, 6],
+                      ['Unicentro',4.14368177955512,-73.63387808203697, 7],
+                      ['Unicentro',4.1376224336139344,-73.6292177438736, 8],
+                      ['Alborada',4.1258299842626895,-73.6203034222126, 9],
+                      ['H campanario',4.1332564655486,-73.56527924537659, 10],
+                      ['Salitre',4.137301407369743,-73.57991337776184, 11],
+                      ['Covisan',4.137643835358924,-73.58811020851135, 12],
+                      ['Kirpas',4.116841066778558,-73.58739137649536, 13],
+                      ['Barrio San Antonio',4.127970187726043,-73.56910943984985, 14],
+                      ['Villacentro',4.13292473659978,-73.63721072673798, 15],
+                      ['Sipote Malteada',4.131367748872982,-73.62874299287796, 16],
+                      ['Milenium gas',4.132063310778181,-73.63109797239304, 17],
+                      ['SanBenito de la esperanza',4.1329193861317295,-73.63351196050644, 18],
+                      ['La Ragazza',4.133502586937058,-73.63555043935776, 19],
+                      ['Carlos Calle',4.125311,-73.636108, 20],
+                      ['La Vega',4.124276,-73.634592, 21],
+                      ['Sol de oriente',4.122036,-73.631861, 22],
+                      ['La Ragazza', 4.12255,-73.629927, 23],
+                      ['La Ragazza', 4.11919,-73.628802, 24],
+                      ['La Ragazza',4.119821,-73.625696, 25]
+
+
+
+
+
+
+                    ];
+
+                    var infowindow = new google.maps.InfoWindow();
+
+                    var marker, i;
+                    for (i = 0; i < locations.length; i++) {  
+                      marker = new google.maps.Marker({
+                        position: new google.maps.LatLng(locations[i][1], locations[i][2]),
+                        map: map,
+                        title:locations[i][0]
+                      });
+
+                      google.maps.event.addListener(marker, 'click', (function(marker, i) {
+                        return function() {
+                          infowindow.setContent(locations[i][0]);
+                          infowindow.open(map, marker);
+                        }
+                      })(marker, i));
+                      
+                        marker.setIcon('https://s19.postimg.org/7z1iu8uer/logo_usuario.png');
+
+
+                      
+                    }
+                function agregar(){
+                            var ubicacion = new google.maps.LatLng(array[contador],array[contador-1]);
+                            var obg={
+                                position:ubicacion,
+                                map:map,
+                                title:x
+                            }
+                             array[contador-2]=gMarket=new google.maps.Marker(obg);
+                            
+                             //icono del usuario
+                            gMarket.setIcon('http://subirimagen.me/uploads/20161116055011.png');
+                     }
+                     function deleteMarker(m){
+                        for (i = 0; i < array.length; i++) { 
+                             if(m===array[i]){
+                              array[i].setMap(null);
+                             } 
+                        }
+                    }
+            }     
+</script>
+<body onload="initialize()" style="height: 90%">
+        <div id="map_canvas" style="width:90%; min-height: 450px;
+margin: 0 auto;
+background: rgb(230, 236, 236);
+box-shadow: 0px 0px 20px black;
+border-radius: 6px;
+box-sizing: border-box;
+overflow: hidden;"></div>
+    <p>PARADERO MAS CERCANO:1 KM</p>
+    </body>
+</html>

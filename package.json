@@ -1,0 +1,22 @@
+{
+  "name": "googlemaps",
+  "version": "1.0.0",
+  "description": "rutas activas",
+  "main": "server.js",
+  "dependencies": {
+    "body-parser": "*",
+    "ejs": "^2.3.1",
+    "express": "*",
+    "jquery": "*",
+    "socket.io": "*"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "start": "node server.js"
+  },
+  "engines":{
+    "node":"6.9.1"
+  },
+  "author": "CristianRey",
+  "license": "ISC"
+}
